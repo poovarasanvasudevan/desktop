@@ -70,5 +70,52 @@ window.onload = function() {
   });
 
   // Change the Notification implementation inside the iframe
-  //app.contentWindow.Notification = CustomNotification;
+  app.contentWindow.Notification = CustomNotification;
+
+  // Context menu
+  app.contentDocument.body.addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+
+    var menu = new gui.Menu();
+    menu.append(new gui.MenuItem({ label: 'Reload', click: function() { win.reload(); } }));
+    menu.append(new gui.MenuItem({ label: 'Navigate Back', click: function() { window.history.back(); } }));
+
+    var selection = app.contentWindow.getSelection().toString();
+    if (selection.length > 0) {
+      menu.append(new gui.MenuItem({ type: 'separator' }));
+
+      var cut = new gui.MenuItem({
+        label: "Cut",
+        click: function() {
+          app.contentDocument.execCommand("cut");
+        }
+      });
+
+      var copy = new gui.MenuItem({
+        label:"Copy",
+        click: function() {
+          app.contentDocument.execCommand("copy");
+        }
+      });
+
+      var paste = new gui.MenuItem({
+        label: "Paste",
+        click: function() {
+          app.contentDocument.execCommand("paste");
+        }
+      });
+
+      //menu.append(cut);
+      menu.append(copy);
+      //menu.append(paste);
+    }
+
+    if (event.currentTarget.type == '') {
+
+    }
+
+    menu.popup(event.x, event.y);
+
+    return false;
+  });
 };

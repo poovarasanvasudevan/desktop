@@ -1,6 +1,4 @@
-'use strict';
-
-var gui = window.require('nw.gui');
+var gui = require('nw.gui');
 var menu = new gui.Menu();
 
 function Menu(cutLabel, copyLabel, pasteLabel) {
@@ -33,6 +31,4 @@ function Menu(cutLabel, copyLabel, pasteLabel) {
   return menu;
 }
 
-
 module.exports = new Menu();
-
