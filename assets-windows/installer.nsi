@@ -1,30 +1,50 @@
-Name "Messenger"
+!include "MUI.nsh"
+
+Name "Chatra"
+BrandingText "chatra.io"
 
 # define the resulting installer's name:
-OutFile "..\dist\MessengerSetup.exe"
+OutFile "ChatraSetup.exe"
 
 # set the installation directory
-InstallDir "$PROGRAMFILES\Messenger for Desktop\"
+InstallDir "$PROGRAMFILES\Chatra\"
+
+# app dialogs
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+
+!define MUI_FINISHPAGE_RUN_TEXT "Start Chatra"
+!define MUI_FINISHPAGE_RUN $INSTDIR\Chatra.exe
+
+!insertmacro MUI_PAGE_FINISH
+!insertmacro MUI_LANGUAGE "English"
 
 # default section start
 Section
 
   # delete already installed files
-  RMDir /r $INSTDIR
+  Delete "$INSTDIR\Uninstall Chatra.exe"
+  Delete $INSTDIR\Chatra.exe
+  Delete $INSTDIR\ffmpegsumo.dll
+  Delete $INSTDIR\icudtl.dat
+  Delete $INSTDIR\libEGL.dll
+  Delete $INSTDIR\libGLESv2.dll
+  Delete $INSTDIR\nw.pak
+  Delete $INSTDIR\locales\*
 
   # define the path to which the installer should install
   SetOutPath $INSTDIR
 
   # specify the files to go in the output path
-  File /r ..\build\Messenger\win32\*
+  File /r ..\build\Chatra\win32\*
 
   # create the uninstaller
-  WriteUninstaller "$INSTDIR\Uninstall Messenger for Desktop.exe"
+  WriteUninstaller "$INSTDIR\Uninstall Chatra.exe"
 
   # create shortcuts in the start menu and on the desktop
-  CreateShortCut "$SMPROGRAMS\Messenger.lnk" "$INSTDIR\Messenger.exe"
-  CreateShortCut "$SMPROGRAMS\Uninstall Messenger for Desktop.lnk" "$INSTDIR\Uninstall Messenger for Desktop.exe"
-  CreateShortCut "$DESKTOP\Messenger.lnk" "$INSTDIR\Messenger.exe"
+  CreateShortCut "$SMPROGRAMS\Chatra.lnk" "$INSTDIR\Chatra.exe"
+  CreateShortCut "$SMPROGRAMS\Uninstall Chatra.lnk" "$INSTDIR\Uninstall Chatra.exe"
+  CreateShortCut "$DESKTOP\Chatra.lnk" "$INSTDIR\Chatra.exe"
 
 SectionEnd
 
@@ -32,11 +52,18 @@ SectionEnd
 Section "Uninstall"
 
   # delete the installed files
-  RMDir /r $INSTDIR
+  Delete "$INSTDIR\Uninstall Chatra.exe"
+  Delete $INSTDIR\Chatra.exe
+  Delete $INSTDIR\ffmpegsumo.dll
+  Delete $INSTDIR\icudtl.dat
+  Delete $INSTDIR\libEGL.dll
+  Delete $INSTDIR\libGLESv2.dll
+  Delete $INSTDIR\nw.pak
+  Delete $INSTDIR\locales\*
 
   # delete the shortcuts
-  Delete "$SMPROGRAMS\Messenger.lnk"
-  Delete "$SMPROGRAMS\Uninstall Messenger for Desktop.lnk"
-  Delete "$DESKTOP\Messenger.lnk"
+  Delete "$SMPROGRAMS\Chatra.lnk"
+  Delete "$SMPROGRAMS\Uninstall Chatra.lnk"
+  Delete "$DESKTOP\Chatra.lnk"
 
 SectionEnd

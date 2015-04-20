@@ -1,84 +1,39 @@
 var gui = require('nw.gui');
 var win = gui.Window.get();
 
-var semver = require('./vendor/semver');
-var manifest = require('./package.json');
-
-var platform = process.platform;
-platform = /^win/.test(platform) ? 'win32'
-         : /^darwin/.test(platform) ? 'osx64'
-         : 'linux' + (process.arch == 'ia32' ? '32' : '64');
-
-var isOSX = platform === 'osx64';
-var isWindows = platform === 'win32';
-var isLinux = platform.indexOf('linux') === 0;
+var CustomNotification = require('./components/notification')(window.Notification, win.focus);
+var platform = require('./components/platform');
 
 // Check for update
-var req = new XMLHttpRequest();
-req.onload = function() {
-  if (req.status < 200 || req.status > 299) {
-    return callback(new Error(req.status));
-  }
 
-  try {
-    var data = JSON.parse(req.responseText);
-    checkNewVersion(null, semver.gt(data.version, manifest.version), data);
-  } catch(error) {
-    callback(error);
-  }
-};
-req.open('get', manifest.manifestUrl, true);
-req.send();
-
-function checkNewVersion(error, newVersionExists, newManifest) {
-  if (error) {
-    return alert('Error while trying to update: ' + error);
-  }
-
-  if (newVersionExists) {
-    var updateMessage = 'There\'s a new version available (' + newManifest.version + ').'
-                        + ' Would you like to download the update now?';
-
-    if (confirm(updateMessage)) {
-      gui.Shell.openExternal(newManifest.packages[platform]);
-      gui.App.quit();
-    }
-  }
-}
 
 // Create the app menu
 var mainMenu = new gui.Menu({ type: 'menubar' });
 
-if (isLinux) {
-  var fileMenu = new gui.Menu();
-  fileMenu.append(new gui.MenuItem({ label: 'Quit', click: function() { win.close(true); } }));
-
-  mainMenu.append(new gui.MenuItem({ label: 'File', submenu: fileMenu }));
-}
-
-if (mainMenu.createMacBuiltin) {
-  mainMenu.createMacBuiltin('Messenger');
+if (platform.isOSX) {
+  //mainMenu.items[0].submenu
+  mainMenu.createMacBuiltin('Chatra');
 }
 
 win.menu = mainMenu;
 
 // Windows
-if (isWindows) {
+if (platform.isWindows) {
   // Create a tray icon
-  var tray = new gui.Tray({ title: 'Messenger', tooltip: 'Messenger for Desktop', icon: 'icon.png' });
+  var tray = new gui.Tray({ title: 'Chatra', icon: 'icon.png' });
   tray.on('click', function() {
     win.show();
   });
 
   // Add a menu to the tray
   var trayMenu = new gui.Menu();
-  trayMenu.append(new gui.MenuItem({ label: 'Open Messenger', click: function() { win.show(); } }));
-  trayMenu.append(new gui.MenuItem({ label: 'Quit Messenger', click: function() { win.close(true); } }));
+  trayMenu.append(new gui.MenuItem({ label: 'Open Chatra', click: function() { win.show(); } }));
+  trayMenu.append(new gui.MenuItem({ label: 'Quit Chatra', click: function() { win.close(true); } }));
   tray.menu = trayMenu;
 }
 
 // OS X
-if (isOSX) {
+if (platform.isOSX) {
   // Re-show the window when the dock icon is pressed
   gui.App.on('reopen', function() {
     win.show();
@@ -90,12 +45,7 @@ win.on('close', function(quit) {
   if (quit) {
     win.close(true);
   } else {
-    // On Linux, just minimize the window
-    if (isLinux) {
-      win.minimize();
-    } else {
-      win.hide();
-    }
+    win.hide();
   }
 });
 
@@ -108,16 +58,17 @@ win.on('new-win-policy', function(frame, url, policy) {
 // Listen for DOM load
 window.onload = function() {
   var app = document.getElementById('app');
-  var titleRegExp = /\((\d)\)/;
 
-  // Watch the iframe every 250ms
+  // Watch the iframe every 250ms to sync the title
   setInterval(function() {
-    // Sync the title
     document.title = app.contentDocument.title;
-
-    // Update the badge
-    var match = titleRegExp.exec(document.title);
-    var label = match && match[1] || '';
-    win.setBadgeLabel(label);
   }, 250);
-}
+
+  // Set the badge update listener
+  app.contentWindow.$window.on('unreadcount', function (event, count) {
+    win.setBadgeLabel(count ? count : '');
+  });
+
+  // Change the Notification implementation inside the iframe
+  //app.contentWindow.Notification = CustomNotification;
+};

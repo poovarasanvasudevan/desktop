@@ -1,19 +1,21 @@
 {
   "main": "app.html",
-  "name": "Messenger",
-  "version": "1.2.4",
+  "name": "Chatra",
+  "version": "1.0.0",
   "window": {
     "width": 800,
     "height": 600,
-    "title": "Messenger",
+    "title": "Chatra",
     "icon": "icon.png",
-    "toolbar": false
+    "toolbar": true
   },
-  "manifestUrl": "https://raw.githubusercontent.com/Aluxian/Facebook-Messenger-Desktop/master/src/package.json",
+  "dependencies": {
+    "node-notifier": "^4.2.1",
+    "semver": "^4.3.3"
+  },
+  "manifestUrl": "https://desktop.chatra.io/latest/package.json",
   "packages": {
-    "osx64": "https://github.com/Aluxian/Facebook-Messenger-Desktop/releases/download/v1.2.4/Messenger.dmg",
-    "win32": "https://github.com/Aluxian/Facebook-Messenger-Desktop/releases/download/v1.2.4/MessengerSetup.exe",
-    "linux32": "https://github.com/Aluxian/Facebook-Messenger-Desktop/releases/download/v1.2.4/Messenger_linux32.deb",
-    "linux64": "https://github.com/Aluxian/Facebook-Messenger-Desktop/releases/download/v1.2.4/Messenger_linux64.deb"
+    "osx64": "https://desktop.chatra.io/latest/Chatra.dmg",
+    "win32": "https://desktop.chatra.io/latest/ChatraSetup.exe"
   }
 }
