@@ -18,7 +18,7 @@ if (platform.isWindows) {
 }
 
 // Check for update
-//updater.checkAndPrompt(manifest, win);
+updater.checkAndPrompt(manifest, win);
 
 // Load the app menus
 menus.loadMenuBar(win)
