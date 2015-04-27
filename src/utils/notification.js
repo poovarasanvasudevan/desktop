@@ -16,6 +16,10 @@ module.exports = {
           }
         };
       })(options.onclick);
+
+      // remove the second image
+      delete options.icon;
+
       return new NativeNotification(title, options);
     };
 
