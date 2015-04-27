@@ -9,6 +9,7 @@ module.exports = {
   isOSX: platform === 'osx',
   isWindows: platform === 'win',
   isLinux: platform === 'linux',
-  name: platform,
+  name: platform + arch,
+  type: platform,
   arch: arch
 };

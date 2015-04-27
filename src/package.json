@@ -2,15 +2,20 @@
   "main": "app.html",
   "name": "Chatra",
   "version": "1.0.0",
+  "app-id": "io.chatra.desktop",
   "window": {
     "width": 800,
     "height": 600,
     "title": "Chatra",
     "icon": "icon.png",
-    "toolbar": true
+    "toolbar": false
   },
   "dependencies": {
-    "node-notifier": "^4.2.1",
+    "copy-paste": "^1.1.0",
+    "async": "^0.9.0",
+    "auto-launch": "^0.1.18",
+    "jfs": "^0.2.5",
+    "request": "^2.55.0",
     "semver": "^4.3.3"
   },
   "manifestUrl": "https://desktop.chatra.io/latest/package.json",

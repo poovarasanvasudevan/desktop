@@ -11,15 +11,21 @@ gulp.task 'clean', ->
 # Build for each platform; on OSX/Linux, you need Wine installed to build win32 (or remove winIco below)
 ['win32', 'osx64'].forEach (platform) ->
   gulp.task 'build:' + platform, ->
+    if process.argv.indexOf('--toolbar') > 0
+      shelljs.sed '-i', '"toolbar": false', '"toolbar": true', './src/package.json'
+
     gulp.src './src/**'
       .pipe $.nodeWebkitBuilder
         platforms: [platform]
-        #winIco: './assets/icon.ico'
-        macIcns: './assets/icon.icns'
+        winIco: './assets-windows/icon.ico'
+        macIcns: './assets-osx/icon.icns'
         macZip: true
         macPlist:
           NSHumanReadableCopyright: 'Copyright © 2015 chatra.io'
           CFBundleIdentifier: 'io.chatra.desktop'
+      .on 'end', ->
+        if process.argv.indexOf('--toolbar') > 0
+          shelljs.sed '-i', '"toolbar": true', '"toolbar": false', './src/package.json'
 
 # Create a DMG for osx64; only works on OS X because of appdmg
 gulp.task 'pack:osx64', ['build:osx64'], ->
@@ -46,6 +52,14 @@ gulp.task 'run:osx64', ['build:osx64'], ->
 # Open the osx64 app
 gulp.task 'open:osx64', ->
   shelljs.exec 'open ./build/Chatra/osx64/Chatra.app'
+
+# Change the version of the manifest files
+# Use like this: gulp version --1.2.0
+gulp.task 'version', ->
+  version = process.argv[3].substring(2)
+  shelljs.sed '-i', /"version": ".*",/, '"version": "' + version + '",', './package.json'
+  shelljs.sed '-i', /"version": ".*",/, '"version": "' + version + '",', './src/package.json'
+  shelljs.sed '-i', /download\/v.*\/Messenger/g, 'download/v' + version + '/Messenger', './src/package.json'
 
 # Make packages for all platforms by default
 gulp.task 'default', ['pack:all']

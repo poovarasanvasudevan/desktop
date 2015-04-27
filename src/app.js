@@ -1,121 +1,53 @@
 var gui = require('nw.gui');
 var win = gui.Window.get();
 
-var CustomNotification = require('./components/notification')(window.Notification, win.focus);
-var platform = require('./components/platform');
+var manifest = require('./package.json');
+var platform = require('./utils/platform');
+var updater = require('./utils/updater');
+var menus = require('./utils/menus');
+var windowBehaviour = require('./utils/window-behaviour');
+var notification = require('./utils/notification');
+var leash = require('./utils/leash');
+
+// Leash check
+leash.check();
+
+// Ensure there's an app shortcut for toast notifications to work on Windows
+if (platform.isWindows) {
+  gui.App.createShortcut(process.env.APPDATA + "\\Microsoft\\Windows\\Start Menu\\Programs\\Chatra.lnk");
+}
 
 // Check for update
+//updater.checkAndPrompt(manifest, win);
 
+// Load the app menus
+menus.loadMenuBar(win)
+menus.loadTrayIcon(win);
 
-// Create the app menu
-var mainMenu = new gui.Menu({ type: 'menubar' });
-
-if (platform.isOSX) {
-  //mainMenu.items[0].submenu
-  mainMenu.createMacBuiltin('Chatra');
-}
-
-win.menu = mainMenu;
-
-// Windows
-if (platform.isWindows) {
-  // Create a tray icon
-  var tray = new gui.Tray({ title: 'Chatra', icon: 'icon.png' });
-  tray.on('click', function() {
-    win.show();
-  });
-
-  // Add a menu to the tray
-  var trayMenu = new gui.Menu();
-  trayMenu.append(new gui.MenuItem({ label: 'Open Chatra', click: function() { win.show(); } }));
-  trayMenu.append(new gui.MenuItem({ label: 'Quit Chatra', click: function() { win.close(true); } }));
-  tray.menu = trayMenu;
-}
-
-// OS X
-if (platform.isOSX) {
-  // Re-show the window when the dock icon is pressed
-  gui.App.on('reopen', function() {
-    win.show();
-  });
-}
-
-// Don't quit the app when the window is closed
-win.on('close', function(quit) {
-  if (quit) {
-    win.close(true);
-  } else {
-    win.hide();
-  }
-});
-
-// Open external urls in the browser
-win.on('new-win-policy', function(frame, url, policy) {
-  gui.Shell.openExternal(url);
-  policy.ignore();
-});
+// Adjust the default behaviour of the main window
+windowBehaviour.set(win);
 
 // Listen for DOM load
 window.onload = function() {
-  var app = document.getElementById('app');
+  var iframe = document.querySelector('iframe');
 
-  // Watch the iframe every 250ms to sync the title
-  setInterval(function() {
-    document.title = app.contentDocument.title;
-  }, 250);
+  // Inject a callback in the notification API
+  notification.injectClickCallback(iframe.contentWindow, win);
+
+  // Add a context menu
+  menus.injectContextMenu(win, iframe.contentWindow, iframe.contentDocument);
+
+  // Bind native events to the content window
+  windowBehaviour.bindEvents(win, iframe.contentWindow);
+
+  // Watch the iframe periodically to sync the title
+  windowBehaviour.syncTitle(document, iframe.contentDocument);
 
   // Set the badge update listener
-  app.contentWindow.$window.on('unreadcount', function (event, count) {
+  iframe.contentWindow.$window.on('unreadcount', function(event, count) {
     win.setBadgeLabel(count ? count : '');
   });
 
-  // Change the Notification implementation inside the iframe
-  app.contentWindow.Notification = CustomNotification;
-
-  // Context menu
-  app.contentDocument.body.addEventListener('contextmenu', function(event) {
-    event.preventDefault();
-
-    var menu = new gui.Menu();
-    menu.append(new gui.MenuItem({ label: 'Reload', click: function() { win.reload(); } }));
-    menu.append(new gui.MenuItem({ label: 'Navigate Back', click: function() { window.history.back(); } }));
-
-    var selection = app.contentWindow.getSelection().toString();
-    if (selection.length > 0) {
-      menu.append(new gui.MenuItem({ type: 'separator' }));
-
-      var cut = new gui.MenuItem({
-        label: "Cut",
-        click: function() {
-          app.contentDocument.execCommand("cut");
-        }
-      });
-
-      var copy = new gui.MenuItem({
-        label:"Copy",
-        click: function() {
-          app.contentDocument.execCommand("copy");
-        }
-      });
-
-      var paste = new gui.MenuItem({
-        label: "Paste",
-        click: function() {
-          app.contentDocument.execCommand("paste");
-        }
-      });
-
-      //menu.append(cut);
-      menu.append(copy);
-      //menu.append(paste);
-    }
-
-    if (event.currentTarget.type == '') {
-
-    }
-
-    menu.popup(event.x, event.y);
-
-    return false;
-  });
+  // Let the inside app know it's a desktop app
+  iframe.contentWindow.isDesktop = true;
 };

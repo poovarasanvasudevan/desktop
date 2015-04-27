@@ -1,10 +1,13 @@
-!include "MUI.nsh"
+!include "MUI2.nsh"
 
 Name "Chatra"
 BrandingText "chatra.io"
 
+# set the icon
+!define MUI_ICON "icon.ico"
+
 # define the resulting installer's name:
-OutFile "ChatraSetup.exe"
+OutFile "../dist/ChatraSetup.exe"
 
 # set the installation directory
 InstallDir "$PROGRAMFILES\Chatra\"
