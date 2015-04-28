@@ -3,7 +3,6 @@ var AutoLaunch = require('auto-launch');
 var clipboard = require('copy-paste');
 var platform = require('./platform');
 var settings = require('./settings');
-var manifest = require('../package.json');
 var updater = require('./updater');
 
 module.exports = {
@@ -63,14 +62,14 @@ module.exports = {
     }, {
       label: 'Check for Updates',
       click: function() {
-        updater.check(manifest, function(error, newVersionExists, newManifest) {
+        updater.check(gui.App.manifest, function(error, newVersionExists, newManifest) {
           if (error) {
             console.error(error);
             win.window.alert(error);
           } else if (newVersionExists) {
             updater.prompt(win, error, newVersionExists, newManifest);
           } else {
-            win.window.alert('You\'re using the latest version: ' + manifest.version);
+            win.window.alert('You\'re using the latest version: ' + gui.App.manifest.version);
           }
         });
       }

@@ -1,7 +1,6 @@
 var gui = require('nw.gui');
 var win = gui.Window.get();
 
-var manifest = require('./package.json');
 var platform = require('./utils/platform');
 var updater = require('./utils/updater');
 var menus = require('./utils/menus');
@@ -17,8 +16,12 @@ if (platform.isWindows) {
   gui.App.createShortcut(process.env.APPDATA + "\\Microsoft\\Windows\\Start Menu\\Programs\\Chatra.lnk");
 }
 
+// Window state
+windowBehaviour.restoreWindowState(win);
+windowBehaviour.bindWindowStateEvents(win);
+
 // Check for update
-updater.checkAndPrompt(manifest, win);
+updater.checkAndPrompt(gui.App.manifest, win);
 
 // Load the app menus
 menus.loadMenuBar(win)

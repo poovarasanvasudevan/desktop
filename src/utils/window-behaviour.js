@@ -1,5 +1,7 @@
 var gui = window.require('nw.gui');
 var platform = require('./platform');
+var settings = require('./settings');
+var _ = require('lodash');
 
 module.exports = {
   /**
@@ -15,17 +17,39 @@ module.exports = {
     if (!platform.isLinux) {
       win.on('close', function(quit) {
         if (quit) {
+          this.saveWindowState(win);
           win.close(true);
         } else {
           win.hide();
         }
-      });
+      }.bind(this));
     }
 
     // Open external urls in the browser
     win.on('new-win-policy', function(frame, url, policy) {
       gui.Shell.openExternal(url);
       policy.ignore();
+    });
+  },
+
+  /**
+   * Listen for window state events.
+   */
+  bindWindowStateEvents: function(win) {
+    win.on('maximize', function() {
+      win.sizeMode = 'maximized';
+    });
+
+    win.on('unmaximize', function() {
+      win.sizeMode = 'normal';
+    });
+
+    win.on('minimize', function() {
+      win.sizeMode = 'minimized';
+    });
+
+    win.on('restore', function() {
+      win.sizeMode = 'normal';
     });
   },
 
@@ -66,5 +90,39 @@ module.exports = {
       var label = countMatch && countMatch[1] || '';
       win.setBadgeLabel(label);
     }, 50);
+  },
+
+  /**
+   * Store the window state.
+   */
+  saveWindowState: function(win) {
+    var state = {
+      mode: win.sizeMode || 'normal'
+    };
+
+    if (state.mode == 'normal') {
+      state.x = win.x;
+      state.y = win.y;
+      state.width = win.width;
+      state.height = win.height;
+    }
+
+    settings.windowState = state;
+  },
+
+  /**
+   * Restore the window size and position.
+   */
+  restoreWindowState: function(win) {
+    var state = settings.windowState;
+
+    if (state.mode == 'maximized') {
+      win.maximize();
+    } else {
+      win.resizeTo(state.width, state.height);
+      win.moveTo(state.x, state.y);
+    }
+
+    win.show();
   }
 };

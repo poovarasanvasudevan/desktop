@@ -4,7 +4,8 @@ var gui = window.require('nw.gui');
 
 var DEFAULT_SETTINGS = {
   launchOnStartup: false,
-  openLinksInBrowser: true
+  openLinksInBrowser: true,
+  windowState: {}
 };
 
 var db = new Store(path.join(gui.App.dataPath, 'preferences.json'));
