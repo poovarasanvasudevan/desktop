@@ -16,7 +16,7 @@ to set the correct icon for the exe. If you don't have Wine, you can comment out
 
 For OSX:
 
-    brew install rpm makensis rpm
+    brew install wine makensis
     sudo gem install fpm
 
 ### OS X
