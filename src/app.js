@@ -6,10 +6,6 @@ var updater = require('./utils/updater');
 var menus = require('./utils/menus');
 var windowBehaviour = require('./utils/window-behaviour');
 var notification = require('./utils/notification');
-var leash = require('./utils/leash');
-
-// Leash check
-leash.check();
 
 // Ensure there's an app shortcut for toast notifications to work on Windows
 if (platform.isWindows) {
