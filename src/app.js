@@ -30,10 +30,9 @@ menus.loadTrayIcon(win);
 // Adjust the default behaviour of the main window
 windowBehaviour.set(win);
 
-// Listen for DOM load
-window.onload = function() {
-  var iframe = document.querySelector('iframe');
-
+// Listen for DOM load inside the iframe
+var iframe = document.querySelector('iframe');
+iframe.onload = function() {
   // Inject a callback in the notification API
   notification.injectClickCallback(iframe.contentWindow, win);
 
