@@ -6,21 +6,22 @@ module.exports = {
     var NativeNotification = window.Notification;
 
     window.Notification = function(title, options) {
-      options.onclick = (function(defaultOnClick) {
-        return function() {
-          win.show();
-          win.focus();
+      var defaultOnClick = options.onclick;
 
-          if (defaultOnClick) {
-            defaultOnClick();
-          }
-        };
-      })(options.onclick);
-
-      // remove the second image
+      delete options.onclick;
       delete options.icon;
 
-      return new NativeNotification(title, options);
+      var notif = new NativeNotification(title, options);
+      notif.addEventListener('click', function() {
+        win.show();
+        win.focus();
+
+        if (defaultOnClick) {
+          defaultOnClick();
+        }
+      });
+
+      return notif;
     };
 
     window.Notification.prototype = NativeNotification.prototype;
