@@ -1,7 +1,6 @@
 var gui = window.require('nw.gui');
 var platform = require('./platform');
 var settings = require('./settings');
-var _ = require('lodash');
 
 module.exports = {
   /**

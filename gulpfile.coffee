@@ -17,6 +17,7 @@ gulp.task 'clean', ->
     gulp.src './src/**'
       .pipe $.nodeWebkitBuilder
         platforms: [platform]
+        version: '0.12.2'
         winIco: './assets-windows/icon.ico'
         macIcns: './assets-osx/icon.icns'
         macZip: true
