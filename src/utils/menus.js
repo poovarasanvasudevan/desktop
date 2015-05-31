@@ -1,6 +1,7 @@
 var gui = window.require('nw.gui');
 var AutoLaunch = require('auto-launch');
 var clipboard = require('copy-paste');
+var windowBehaviour = require('./window-behaviour');
 var platform = require('./platform');
 var settings = require('./settings');
 var updater = require('./updater');
@@ -206,6 +207,7 @@ module.exports = {
     menu.append(new gui.MenuItem({
       label: 'Reload',
       click: function() {
+        windowBehaviour.saveWindowState(win);
         win.reload();
       }
     }));
