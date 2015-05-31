@@ -294,10 +294,16 @@ module.exports = {
    * Listen for right clicks and show a context menu.
    */
   injectContextMenu: function(win, window, document) {
-    document.body.addEventListener('contextmenu', function(event) {
+    if (window.contextMenuListener) {
+      document.body.removeEventListener('contextmenu', window.contextMenuListener);
+    }
+
+    window.contextMenuListener = function(event) {
       event.preventDefault();
       this.createContextMenu(win, window, document, event.target).popup(event.x, event.y);
       return false;
-    }.bind(this));
+    }.bind(this);
+
+    document.body.addEventListener('contextmenu', window.contextMenuListener);
   }
 };

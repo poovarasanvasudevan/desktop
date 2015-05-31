@@ -57,6 +57,7 @@ module.exports = {
    */
   bindEvents: function(win, contentWindow) {
     ['focus', 'blur'].forEach(function(name) {
+      win.removeAllListeners(name);
       win.on(name, function() {
         contentWindow.dispatchEvent(new contentWindow.Event(name));
       });
@@ -67,7 +68,12 @@ module.exports = {
    * Sen an interval to sync the title.
    */
   syncTitle: function(parentDoc, childDoc) {
-    setInterval(function() {
+    if (parentDoc.syncTitleInterval) {
+      clearInterval(parentDoc.syncTitleInterval);
+      parentDoc.syncTitleInterval = undefined;
+    }
+
+    parentDoc.syncTitleInterval = setInterval(function() {
       parentDoc.title = childDoc.title;
     }, 50);
   },

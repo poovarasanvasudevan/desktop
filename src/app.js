@@ -28,7 +28,11 @@ windowBehaviour.set(win);
 
 // Listen for DOM load inside the iframe
 var iframe = document.querySelector('iframe');
-iframe.onload = function() {
+iframe.onload = function reinject() {
+  // Remove leftovers
+  iframe.contentWindow.$window.off('unreadcount');
+  iframe.contentWindow.$window.off('reinject');
+
   // Inject a callback in the notification API
   notification.injectClickCallback(iframe.contentWindow, win);
 
@@ -44,6 +48,11 @@ iframe.onload = function() {
   // Set the badge update listener
   iframe.contentWindow.$window.on('unreadcount', function(event, count) {
     win.setBadgeLabel(count ? count : '');
+  });
+
+  // Let the inside app reinject the scripts
+  iframe.contentWindow.$window.on('reinject', function(event) {
+    reinject();
   });
 
   // Let the inside app know it's a desktop app

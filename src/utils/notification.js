@@ -5,6 +5,11 @@ module.exports = {
   injectClickCallback: function(window, win) {
     var NativeNotification = window.Notification;
 
+    // Already injected
+    if (NativeNotification.customInjected) {
+      return;
+    }
+
     window.Notification = function(title, options) {
       var defaultOnClick = options.onclick;
 
@@ -27,5 +32,6 @@ module.exports = {
     window.Notification.prototype = NativeNotification.prototype;
     window.Notification.permission = NativeNotification.permission;
     window.Notification.requestPermission = NativeNotification.requestPermission.bind(window.Notification);
+    window.Notification.customInjected = true;
   }
 };
