@@ -1,13 +1,13 @@
 {
   "main": "app.html",
   "name": "Chatra",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "app-id": "io.chatra.desktop",
   "window": {
     "width": 800,
     "height": 600,
     "title": "Chatra",
-    "icon": "icon.png",
+    "icon": "icon_512.png",
     "show": false,
     "toolbar": false
   },
@@ -19,5 +19,5 @@
     "request": "^2.56.0",
     "semver": "^4.3.5"
   },
-  "manifestUrl": "http://desktop.chatra.io/package.json"
+  "manifestUrl": "http://desktop.chatra.io.s3.amazonaws.com/package.json"
 }

@@ -33,7 +33,7 @@ module.exports = {
     }
 
     if (newVersionExists) {
-      var updateMessage = 'There\'s a new version available (' + newManifest.version + '). Would you like to download the update now?';
+      var updateMessage = 'There’s a new version available (' + newManifest.version + '). Would you like to download the update now?';
 
       if (win.window.confirm(updateMessage)) {
         gui.Shell.openExternal(newManifest.packages[platform.name]);

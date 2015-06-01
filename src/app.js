@@ -20,7 +20,7 @@ windowBehaviour.bindWindowStateEvents(win);
 updater.checkAndPrompt(gui.App.manifest, win);
 
 // Load the app menus
-menus.loadMenuBar(win)
+menus.loadMenuBar(win);
 menus.loadTrayIcon(win);
 
 // Adjust the default behaviour of the main window

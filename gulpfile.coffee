@@ -22,7 +22,7 @@ gulp.task 'clean', ->
         macIcns: './assets-osx/icon.icns'
         macZip: true
         macPlist:
-          NSHumanReadableCopyright: 'Copyright © 2015 chatra.io'
+          NSHumanReadableCopyright: 'Copyright © 2015 Chatra.io'
           CFBundleIdentifier: 'io.chatra.desktop'
       .on 'end', ->
         if process.argv.indexOf('--toolbar') > 0
@@ -60,7 +60,7 @@ gulp.task 'version', ->
   version = process.argv[3].substring(2)
   shelljs.sed '-i', /"version": ".*",/, '"version": "' + version + '",', './package.json'
   shelljs.sed '-i', /"version": ".*",/, '"version": "' + version + '",', './src/package.json'
-  shelljs.sed '-i', /download\/v.*\/Messenger/g, 'download/v' + version + '/Messenger', './src/package.json'
+  shelljs.sed '-i', /download\/v.*\/Chatra/g, 'download/v' + version + '/Chatra', './src/package.json'
 
 # Make packages for all platforms by default
 gulp.task 'default', ['pack:all']
