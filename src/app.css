@@ -9,3 +9,8 @@ html, body, iframe {
   height: 100%;
   overflow: hidden;
 }
+
+body {
+  background: url(heart.png) no-repeat 50% 50% #f6f5f7;
+  background-size: 187px 158px;
+}
