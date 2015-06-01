@@ -64,13 +64,10 @@ iframe.onload = function reinject() {
 };
 
 // Reload the app periodically until it loads
-console.log(document.title);
 var reloadIntervalId = setInterval(function() {
   if (document.title && document.title != 'Chatra') {
-    console.log('clearing');
     clearInterval(reloadIntervalId);
   } else {
-    console.log('reloading');
     win.reload();
   }
 }, 15 * 1000);
