@@ -29,9 +29,11 @@ windowBehaviour.set(win);
 // Listen for DOM load inside the iframe
 var iframe = document.querySelector('iframe');
 iframe.onload = function reinject() {
-  // Remove leftovers
-  iframe.contentWindow.$window.off('unreadcount');
-  iframe.contentWindow.$window.off('reinject');
+  if (iframe.contentWindow.$window) {
+    // Remove leftovers
+    iframe.contentWindow.$window.off('unreadcount');
+    iframe.contentWindow.$window.off('reinject');
+  }
 
   // Inject a callback in the notification API
   notification.injectClickCallback(iframe.contentWindow, win);
@@ -45,16 +47,30 @@ iframe.onload = function reinject() {
   // Watch the iframe periodically to sync the title
   windowBehaviour.syncTitle(document, iframe.contentDocument);
 
-  // Set the badge update listener
-  iframe.contentWindow.$window.on('unreadcount', function(event, count) {
-    win.setBadgeLabel(count ? count : '');
-  });
+  if (iframe.contentWindow.$window) {
+    // Set the badge update listener
+    iframe.contentWindow.$window.on('unreadcount', function(event, count) {
+      win.setBadgeLabel(count ? count : '');
+    });
 
-  // Let the inside app reinject the scripts
-  iframe.contentWindow.$window.on('reinject', function(event) {
-    reinject();
-  });
+    // Let the inside app reinject the scripts
+    iframe.contentWindow.$window.on('reinject', function(event) {
+      reinject();
+    });
+  }
 
   // Let the inside app know it's a desktop app
   iframe.contentWindow.isDesktop = true;
 };
+
+// Reload the app periodically until it loads
+console.log(document.title);
+var reloadIntervalId = setInterval(function() {
+  if (document.title && document.title != 'Chatra') {
+    console.log('clearing');
+    clearInterval(reloadIntervalId);
+  } else {
+    console.log('reloading');
+    win.reload();
+  }
+}, 15 * 1000);
