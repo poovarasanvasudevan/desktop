@@ -67,7 +67,7 @@ module.exports = {
           if (error || newVersionExists) {
             updater.prompt(win, false, error, newVersionExists, newManifest);
           } else {
-            win.window.alert('You\'re using the latest version: ' + gui.App.manifest.version);
+            win.window.alert('You’re using the latest version: ' + gui.App.manifest.version);
           }
         });
       }
