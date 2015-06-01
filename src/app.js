@@ -6,11 +6,21 @@ var updater = require('./utils/updater');
 var menus = require('./utils/menus');
 var windowBehaviour = require('./utils/window-behaviour');
 var notification = require('./utils/notification');
+var dispatcher = require('./utils/dispatcher');
 
 // Ensure there's an app shortcut for toast notifications to work on Windows
 if (platform.isWindows) {
   gui.App.createShortcut(process.env.APPDATA + "\\Microsoft\\Windows\\Start Menu\\Programs\\Chatra.lnk");
 }
+
+// Add dispatcher events
+dispatcher.addEventListener('win.alert', function(data) {
+  data.win.window.alert(data.message);
+});
+
+dispatcher.addEventListener('win.confirm', function(data) {
+  data.callback(data.win.window.confirm(data.message));
+});
 
 // Window state
 windowBehaviour.restoreWindowState(win);
@@ -65,7 +75,7 @@ iframe.onload = function reinject() {
 
 // Reload the app periodically until it loads
 var reloadIntervalId = setInterval(function() {
-  if (document.title && document.title != 'Chatra') {
+  if (win.window.navigator.onLine) {
     clearInterval(reloadIntervalId);
   } else {
     win.reload();
