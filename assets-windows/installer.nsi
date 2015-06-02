@@ -1,7 +1,7 @@
 !include "MUI2.nsh"
 
 Name "Chatra"
-BrandingText "chatra.io"
+BrandingText "Chatra.io"
 
 # set the icon
 !define MUI_ICON "icon.ico"
