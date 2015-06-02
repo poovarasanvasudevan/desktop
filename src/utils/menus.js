@@ -187,7 +187,7 @@ module.exports = {
     }
 
     var tray = new gui.Tray({
-      icon: 'icon.png'
+      icon: 'icon_16.png'
     });
 
     tray.on('click', function() {
