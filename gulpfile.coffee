@@ -28,8 +28,15 @@ gulp.task 'clean', ->
         if process.argv.indexOf('--toolbar') > 0
           shelljs.sed '-i', '"toolbar": true', '"toolbar": false', './src/package.json'
 
+# Only runs on OSX (requires XCode properly configured)
+gulp.task 'sign:osx64', ['build:osx64'], ->
+  shelljs.exec 'codesign -v -f -s "my signing identity" ./build/Messenger/osx64/Messenger.app/Contents/Frameworks/*'
+  shelljs.exec 'codesign -v -f -s "my signing identity" ./build/Messenger/osx64/Messenger.app'
+  shelljs.exec 'codesign -v --display ./build/Messenger/osx64/Messenger.app'
+  shelljs.exec 'codesign -v --verify ./build/Messenger/osx64/Messenger.app'
+
 # Create a DMG for osx64; only works on OS X because of appdmg
-gulp.task 'pack:osx64', ['build:osx64'], ->
+gulp.task 'pack:osx64', ['sign:osx64'], ->
   shelljs.mkdir '-p', './dist'         # appdmg fails if ./dist doesn't exist
   shelljs.rm '-f', './dist/Chatra.dmg' # appdmg fails if the dmg already exists
 
