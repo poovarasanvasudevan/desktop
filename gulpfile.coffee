@@ -30,8 +30,8 @@ gulp.task 'clean', ->
 
 # Only runs on OSX (requires XCode properly configured)
 gulp.task 'sign:osx64', ['build:osx64'], ->
-  shelljs.exec 'codesign -v -f -s "my signing identity" ./build/Chatra/osx64/Chatra.app/Contents/Frameworks/*'
-  shelljs.exec 'codesign -v -f -s "my signing identity" ./build/Chatra/osx64/Chatra.app'
+  shelljs.exec 'codesign -v -f -s "Developer ID Application: Roger Wilco LLC" ./build/Chatra/osx64/Chatra.app/Contents/Frameworks/*'
+  shelljs.exec 'codesign -v -f -s "Developer ID Application: Roger Wilco LLC" ./build/Chatra/osx64/Chatra.app'
   shelljs.exec 'codesign -v --display ./build/Chatra/osx64/Chatra.app'
   shelljs.exec 'codesign -v --verify ./build/Chatra/osx64/Chatra.app'
 
