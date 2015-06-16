@@ -30,10 +30,10 @@ gulp.task 'clean', ->
 
 # Only runs on OSX (requires XCode properly configured)
 gulp.task 'sign:osx64', ['build:osx64'], ->
-  shelljs.exec 'codesign -v -f -s "my signing identity" ./build/Messenger/osx64/Messenger.app/Contents/Frameworks/*'
-  shelljs.exec 'codesign -v -f -s "my signing identity" ./build/Messenger/osx64/Messenger.app'
-  shelljs.exec 'codesign -v --display ./build/Messenger/osx64/Messenger.app'
-  shelljs.exec 'codesign -v --verify ./build/Messenger/osx64/Messenger.app'
+  shelljs.exec 'codesign -v -f -s "my signing identity" ./build/Chatra/osx64/Chatra.app/Contents/Frameworks/*'
+  shelljs.exec 'codesign -v -f -s "my signing identity" ./build/Chatra/osx64/Chatra.app'
+  shelljs.exec 'codesign -v --display ./build/Chatra/osx64/Chatra.app'
+  shelljs.exec 'codesign -v --verify ./build/Chatra/osx64/Chatra.app'
 
 # Create a DMG for osx64; only works on OS X because of appdmg
 gulp.task 'pack:osx64', ['sign:osx64'], ->
