@@ -1,23 +1,62 @@
 {
-  "main": "app.html",
-  "name": "Chatra",
-  "version": "1.1.1",
-  "app-id": "io.chatra.desktop",
-  "window": {
-    "width": 800,
-    "height": 600,
-    "title": "Chatra",
-    "icon": "icon_16.png",
-    "show": false,
-    "toolbar": false
-  },
+  "name": "chatra",
+  "productName": "Chatra",
+  "version": "2.0.0",
+  "description": "Modern Live Chat Software",
+  "wvUrl": "https://app.chatra.io/",
+  "main": "./scripts/browser/main.js",
   "dependencies": {
-    "async": "^1.0.0",
-    "auto-launch": "^0.1.18",
-    "copy-paste": "^1.1.2",
-    "jfs": "^0.2.5",
-    "request": "^2.56.0",
-    "semver": "^4.3.5"
+    "async": "1.5.2",
+    "babel-runtime": "6.6.1",
+    "debug": "2.2.0",
+    "del": "2.2.0",
+    "jfs": "0.2.6",
+    "keymirror": "0.1.1",
+    "launchd.plist": "0.0.1",
+    "lodash": "4.6.1",
+    "mkdirp": "0.5.1",
+    "mousetrap": "1.5.3",
+    "mustache": "2.2.1",
+    "node-uuid": "1.4.7",
+    "request": "2.69.0",
+    "semver": "5.1.0",
+    "spellchecker": "3.2.3",
+    "strip-ansi": "3.0.1",
+    "universal-analytics": "0.3.10",
+    "winreg": "1.0.1",
+    "yargs": "3.32.0"
   },
-  "manifestUrl": "http://desktop.chatra.io.s3.amazonaws.com/package.json"
+  "devDependencies": {
+    "source-map-support": "0.4.0"
+  },
+  "optionalDependencies": {
+    "nodobjc": "2.1.0"
+  },
+  "updater": {
+    "urls": {
+      "darwin": "https://updates.chatra.io/update/darwin?version=%CURRENT_VERSION%",
+      "win32": "https://updates.chatra.io/update/win32"
+    }
+  },
+  "darwin": {
+    "bundleId": "io.chatra.desktop",
+    "appCategoryType": "public.app-category.social-networking",
+    "copyright": "Copyright © Chatra"
+  },
+  "win": {
+    "companyName": "Chatra",
+    "copyright": "Copyright © Chatra",
+    "userModelId": "com.squirrel.chatra.Chatra"
+  },
+  "author": "Chatra <support@chatra.io>",
+  "homepage": "https://chatra.io/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chatr/desktop.git"
+  },
+  "gaPropertyId": null,
+  "electronVersion": "v0.36.10",
+  "distrib": "unset",
+  "portable": false,
+  "buildNum": 0
 }
