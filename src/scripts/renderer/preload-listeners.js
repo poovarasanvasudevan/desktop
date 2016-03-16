@@ -25,10 +25,12 @@ document.addEventListener('contextmenu', function(event) {
 }, false);
 
 // Set the notif count listener
-document.addEventListener('load', function() {
+window.addEventListener('load', function() {
   log('document loaded');
-  window.$window.on('unreadcount', function(event, count) {
+  window.$window.on('unreadcount', function(event, rawCount) {
+    const parsed = parseInt(rawCount, 10);
+    const count = isNaN(parsed) || !parsed ? '' : '' + parsed;
     log('sending notif-count', count);
-    ipcr.send('notif-count', '' + count);
+    ipcr.send('notif-count', count);
   });
 });
