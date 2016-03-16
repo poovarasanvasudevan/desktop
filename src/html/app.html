@@ -3,9 +3,11 @@
 <head>
   <title>{{ productName }}</title>
   <link rel="stylesheet" href="../styles/app.css">
+  <link rel="stylesheet" href="../styles/loading.css">
 </head>
 <body>
   <webview id="webView" preload="../scripts/renderer/preload.js"></webview>
+  <div class="loading"></div>
   <script src="../scripts/renderer/app.js"></script>
 </body>
 </html>

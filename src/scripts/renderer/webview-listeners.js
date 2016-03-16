@@ -29,6 +29,13 @@ webView.addEventListener('new-window', function(event) {
 webView.addEventListener('dom-ready', function() {
   log('dom-ready');
 
+  // Hide the loading splash screen
+  const loadingSplashDiv = document.querySelector('.loading');
+  loadingSplashDiv.style.opacity = 0;
+  setTimeout(function() {
+    loadingSplashDiv.style.display = 'none';
+  }, 250);
+
   // Open dev tools when debugging
   if (window.localStorage.debugDevTools) {
     webView.openDevTools();
@@ -49,6 +56,12 @@ webView.addEventListener('dom-ready', function() {
     log('restoring spell checker', spellCheckerCheck, 'auto correct', autoCorrect, 'lang code', langCode);
     webView.send('spell-checker', spellCheckerCheck, autoCorrect, langCode);
   }
+});
+
+// Animate the splash screen into view
+document.addEventListener('DOMContentLoaded', function() {
+  const loadingSplashDiv = document.querySelector('.loading');
+  loadingSplashDiv.style.opacity = 1;
 });
 
 export default webView;
