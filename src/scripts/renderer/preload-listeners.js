@@ -13,7 +13,7 @@ document.addEventListener('contextmenu', function(event) {
   const payload = {
     selection: selection,
     hasSelection: !!selection,
-    targetIsEditable: event.target.isContentEditable,
+    targetIsEditable: event.target.isContentEditable || event.target.tagName == 'TEXTAREA',
     targetIsLink: event.target.tagName == 'A',
     isMisspelling: isMisspelling,
     corrections: corrections,
