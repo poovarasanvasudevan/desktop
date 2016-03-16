@@ -3,7 +3,6 @@ import spellChecker from 'spellchecker';
 
 // Forward context menu opens
 document.addEventListener('contextmenu', function(event) {
-  log('sending context-menu');
   event.preventDefault();
 
   const selection = document.getSelection().toString();
@@ -11,7 +10,7 @@ document.addEventListener('contextmenu', function(event) {
   const isMisspelling = !trimmedText.includes(' ') && spellChecker.isMisspelled(trimmedText);
   const corrections = isMisspelling ? spellChecker.getCorrectionsForMisspelling(trimmedText) : [];
 
-  ipcr.send('context-menu', {
+  const payload = {
     selection: selection,
     hasSelection: !!selection,
     targetIsEditable: event.target.isContentEditable,
@@ -19,7 +18,10 @@ document.addEventListener('contextmenu', function(event) {
     isMisspelling: isMisspelling,
     corrections: corrections,
     href: event.target.href
-  });
+  };
+
+  log('sending context menu', payload);
+  ipcr.send('context-menu', payload);
 }, false);
 
 // Set the notif count listener
