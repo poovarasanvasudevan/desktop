@@ -9,7 +9,9 @@ function namespaceOf(filename) {
 }
 
 export function debugLogger(filename) {
-  return debug(namespaceOf(filename));
+  const log = debug(namespaceOf(filename));
+  log.log = console.info.bind(console);
+  return log;
 }
 
 export function errorLogger(filename, fatal) {
