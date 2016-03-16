@@ -13,7 +13,7 @@ const defaults = {
   'show-notifications-badge': true,
   'show-tray': platform.isWin,
   'show-dock': true,
-  'spell-checker-check': false,
+  'spell-checker-check': true,
   'spell-checker-auto-correct': false,
   'spell-checker-language': defaultSpellCheckerLanguage,
   'window-bounds': {
