@@ -34,8 +34,8 @@
   },
   "updater": {
     "urls": {
-      "darwin": "https://updates.chatra.io/update/darwin?version=%CURRENT_VERSION%",
-      "win32": "https://updates.chatra.io/update/win32"
+      "darwin": "http://squirrel-updates.chatra.io:3000/update/darwin?version=%CURRENT_VERSION%",
+      "win32": "http://squirrel-updates.chatra.io:3000/update/win32"
     }
   },
   "darwin": {
