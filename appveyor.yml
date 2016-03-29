@@ -32,6 +32,7 @@ install:
   - aws s3 cp --region eu-west-1 s3://chatra-io/certs/code-sign.pfx C:/code-sign.pfx
   - npm install -g gulp
   - npm install
+  - cd src && npm install
 
 before_build:
   - npm test
