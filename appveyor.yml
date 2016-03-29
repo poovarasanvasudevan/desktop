@@ -12,13 +12,13 @@ environment:
   SIGNTOOL_PATH: 'C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Bin/SignTool.exe'
   SIGN_WIN_CERTIFICATE_FILE: 'C:/foss_ar_sha2.pfx' # TODO
   SIGN_WIN_CERTIFICATE_PASSWORD:
-    secure: jZHktkydPALqcwx36cBY1g== # TODO
+    secure: nyd9bdkflnyrzMgS67TsFQ==
   AWS_ACCESS_KEY_ID:
-    secure: un4e1Apf/PIHv/duLtXtk4j4AIgorOKxvMhxhoUd4N8= # TODO
+    secure: KCNgXhFTqB4ghk+NC/r+lPseHn7DhRnOZDM8E/iqNh4=
   AWS_SECRET_ACCESS_KEY:
-    secure: zP4aGkRtRqZIKZ2tM2q//6dC4SfzKdxDBGTSV3AEbpUnDDco/uMy9ZU1cmVEQigk # TODO
+    secure: F/5rsDPPy3nj8fe4Dny6G3AwS9dkfW7yImwYJ2z4dyctReBtUsNuS5fu+7wcQ/fC
   GITHUB_TOKEN:
-    secure: VgebEox3uOMipNS2O/GeWXLpfqPcIp3hUstSLsaL0YpHvxG95FVzQLuI3IbahvFH # TODO
+    secure: f9CXKg1qkz7okdybl/u8+dj1tRhBV0kQnhHuBMti/8YDhqr5sca4pK6v86P9fMwY
 
 cache:
   - "node_modules -> package.json"
