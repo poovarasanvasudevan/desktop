@@ -10,7 +10,7 @@ branches:
 
 environment:
   SIGNTOOL_PATH: 'C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Bin/SignTool.exe'
-  SIGN_WIN_CERTIFICATE_FILE: 'C:/foss_ar_sha2.pfx' # TODO
+  SIGN_WIN_CERTIFICATE_FILE: 'C:/code-sign.pfx'
   SIGN_WIN_CERTIFICATE_PASSWORD:
     secure: nyd9bdkflnyrzMgS67TsFQ==
   AWS_ACCESS_KEY_ID:
@@ -29,7 +29,7 @@ cache:
 install:
   - npm install -g npm@3
   - set PATH=%APPDATA%\npm;%PATH%
-  - aws s3 cp --region eu-west-1 s3://aluxian/certificates/foss_ar_sha2.pfx C:/foss_ar_sha2.pfx # TODO
+  - aws s3 cp --region eu-west-1 s3://chatra-io/certs/code-sign.pfx C:/code-sign.pfx
   - npm install -g gulp
   - npm install
 
