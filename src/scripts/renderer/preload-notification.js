@@ -31,9 +31,13 @@ window.Notification = (function(Html5Notification) {
     // HTML5-like event emitter to be returned
     const result = Object.assign(new EventEmitter(), nativeOptions);
 
-    // Add a dummy close callback
+    // Add a close handler
     result.close = function() {
-      log('notification.close() not implemented');
+      if (result.__data) {
+        nativeNotifier.removeNotification(result.__data.identifier);
+      } else {
+        log('tried to close notification with falsy __data');
+      }
     };
 
     // Set the click handler
@@ -51,6 +55,11 @@ window.Notification = (function(Html5Notification) {
         log('sending reply', payload.response);
         options.replyCallback(payload.response);
       }
+    };
+
+    // Set the creation callback
+    nativeOptions.onCreate = function(data) {
+      result.__data = data;
     };
 
     // Fire the notification
