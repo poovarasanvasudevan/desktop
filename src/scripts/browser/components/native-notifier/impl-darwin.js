@@ -91,7 +91,7 @@ class DarwinNativeNotifier extends BaseNativeNotifier {
 
     // Click callback
     if (onClick) {
-      this.on('notif-activated-' + tag, onClick);
+      this.on('notif-activated-' + identifier, onClick);
     }
 
     // Creation callback
