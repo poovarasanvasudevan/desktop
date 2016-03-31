@@ -10,6 +10,9 @@ window.Notification = (function(Html5Notification) {
 
   const Notification = function(title, options) {
     if (!nativeNotifier.isImplemented) {
+      // Mute notification sounds
+      options.silent = true;
+
       log('showing html5 notification', title, options);
       const notification = new Html5Notification(title, options);
 
