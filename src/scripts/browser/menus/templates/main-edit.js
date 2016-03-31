@@ -59,7 +59,7 @@ export default {
     label: 'Check Spelling While Typing',
     click: $.all(
       $.sendToWebView('spell-checker', $.key('checked'), $.pref('spell-checker-auto-correct'), $.pref('spell-checker-language')),
-      $.updateSibling('spell-checker-auto-correct', 'enabled', $.key('checked')),
+      // $.updateSibling('spell-checker-auto-correct', 'enabled', $.key('checked')),
       $.updateSibling('spell-checker-language', 'enabled', $.key('checked')),
       $.setPref('spell-checker-check', $.key('checked'))
     ),
@@ -67,18 +67,18 @@ export default {
       $.setLocal('checked', $.pref('spell-checker-check'))
     )
   }, {
-    id: 'spell-checker-auto-correct',
-    type: 'checkbox',
-    label: 'Auto Correct Spelling Mistakes',
-    click: $.all(
-      $.sendToWebView('spell-checker', $.pref('spell-checker-check'), $.key('checked'), $.pref('spell-checker-language')),
-      $.setPref('spell-checker-auto-correct', $.key('checked'))
-    ),
-    parse: $.all(
-      $.setLocal('enabled', $.pref('spell-checker-check')),
-      $.setLocal('checked', $.pref('spell-checker-auto-correct'))
-    )
-  }, {
+  //   id: 'spell-checker-auto-correct',
+  //   type: 'checkbox',
+  //   label: 'Auto Correct Spelling Mistakes',
+  //   click: $.all(
+  //     $.sendToWebView('spell-checker', $.pref('spell-checker-check'), $.key('checked'), $.pref('spell-checker-language')),
+  //     $.setPref('spell-checker-auto-correct', $.key('checked'))
+  //   ),
+  //   parse: $.all(
+  //     $.setLocal('enabled', $.pref('spell-checker-check')),
+  //     $.setLocal('checked', $.pref('spell-checker-auto-correct'))
+  //   )
+  // }, {
     id: 'spell-checker-language',
     label: 'Spell Checker Language',
     submenu: availableLanguages.map(lang => {
