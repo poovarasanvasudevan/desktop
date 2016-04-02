@@ -1,4 +1,5 @@
 import filePaths from '../utils/file-paths';
+import dialog from 'dialog';
 import async from 'async';
 import cp from 'child_process';
 import app from 'app';
@@ -6,10 +7,37 @@ import del from 'del';
 
 import AutoLauncher from './auto-launcher';
 import manifest from '../../../package.json';
+import oldAppCleaner from './old-app-cleaner';
 
 class SquirrelEvents {
 
   check(options) {
+    if (options.squirrelFirstrun) {
+      if (options.portable) {
+        return;
+      }
+      log('checking for WAFD leftovers');
+      oldAppCleaner.check(function(foundLeftovers) {
+        if (foundLeftovers) {
+          dialog.showMessageBox({
+            type: 'question',
+            message: 'Remove old Chatra app?',
+            detail: 'Chatra has found files from a previous version of Chatra on your computer. Do you want to completely remove the old app?',
+            buttons: ['Skip', 'Remove']
+          }, function(response) {
+            if (response === 1) {
+              log('user chose Remove');
+              oldAppCleaner.clean(function() {
+                log('cleaning done');
+              });
+            } else {
+              log('user chose Skip');
+            }
+          });
+        }
+      });
+    }
+
     if (options.squirrelInstall) {
       log('creating shortcuts');
       this.spawnSquirrel(['--createShortcut', app.getPath('exe')], this.eventHandled);
