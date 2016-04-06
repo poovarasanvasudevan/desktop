@@ -16,26 +16,26 @@ class SquirrelEvents {
       if (options.portable) {
         return;
       }
-      log('checking for WAFD leftovers');
-      oldAppCleaner.check(function(foundLeftovers) {
-        if (foundLeftovers) {
-          dialog.showMessageBox({
-            type: 'question',
-            message: 'Remove old Chatra app?',
-            detail: 'Chatra has found files from a previous version of Chatra on your computer. Do you want to completely remove the old app?',
-            buttons: ['Skip', 'Remove']
-          }, function(response) {
-            if (response === 1) {
-              log('user chose Remove');
-              oldAppCleaner.clean(function() {
-                log('cleaning done');
-              });
-            } else {
-              log('user chose Skip');
-            }
-          });
-        }
-      });
+      // log('checking for old app leftovers');
+      // oldAppCleaner.check(function(foundLeftovers) {
+      //   if (foundLeftovers) {
+      //     dialog.showMessageBox({
+      //       type: 'question',
+      //       message: 'Remove old Chatra app?',
+      //       detail: 'Chatra has found files from a previous version of Chatra on your computer. Do you want to completely remove the old app?',
+      //       buttons: ['Skip', 'Remove']
+      //     }, function(response) {
+      //       if (response === 1) {
+      //         log('user chose Remove');
+      //         oldAppCleaner.clean(function() {
+      //           log('cleaning done');
+      //         });
+      //       } else {
+      //         log('user chose Skip');
+      //       }
+      //     });
+      //   }
+      // });
     }
 
     if (options.squirrelInstall) {
