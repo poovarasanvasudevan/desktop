@@ -1,7 +1,7 @@
 {
   "name": "chatra",
   "productName": "Chatra",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Modern Live Chat Software",
   "wvUrl": "https://app.chatra.io/",
   "main": "./scripts/browser/main.js",
