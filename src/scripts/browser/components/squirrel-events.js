@@ -1,5 +1,5 @@
 import filePaths from '../utils/file-paths';
-import dialog from 'dialog';
+//import dialog from 'dialog';
 import async from 'async';
 import cp from 'child_process';
 import app from 'app';
@@ -7,7 +7,7 @@ import del from 'del';
 
 import AutoLauncher from './auto-launcher';
 import manifest from '../../../package.json';
-import oldAppCleaner from './old-app-cleaner';
+//import oldAppCleaner from './old-app-cleaner';
 
 class SquirrelEvents {
 
